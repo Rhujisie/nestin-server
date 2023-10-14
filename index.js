@@ -46,16 +46,6 @@ app.use(cookieParser())
 ///app.use(credentials)
 app.use(cors(corsOptions))
 
-app.use(rateLimit({
-    windowMs: 60 * 1000, // 1 min
-    max: 5,
-    message: {
-        message: 'Too many attempts from this IP, please try again after 60 seconds'
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-}))
-
 const PORT = process.env.PORT || 3000
 
 // routes
