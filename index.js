@@ -74,6 +74,9 @@ app.post('/api/v1/uploads', photoMiddleware.array('photos', 100), (req, res)=>{
     res.json(uploadedFiles)
 })
 app.use('/uploads', express.static('./uploads'))
+app.get('/', (req, res)=>{
+    res.send('Hello there, welcome to nestin API')
+})
 app.use('/api/v1', userRouter)
 app.use('/api/v1/refresh', refreshRouter)
 app.use('/api/v1/logout', logoutRouter)
