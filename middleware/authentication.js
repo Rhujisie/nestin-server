@@ -15,6 +15,7 @@ const auth = async (req, res, next)=>{
     }catch(err){
         //[ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         res.status(403).json(err)
+        return
     }   
     next()
 }
