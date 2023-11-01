@@ -23,12 +23,12 @@ const registerUser = async (req, res)=>{
     const accessToken = user.createAccessJWT()
     const refreshToken = user.createRefreshJWT()
     res.cookie('jwt', refreshToken, 
-        // {
-        // httpOnly: true, //accessible only by web server
-        // // secure: true,//https
-        // sameSite: 'None',//cross-site cookie
-        // maxAge: 7 * 24 * 60 * 60 * 1000,//cookie expiry: set to macth rt
-        // }
+        {
+        httpOnly: true, //accessible only by web server
+        secure: true,//https
+        sameSite: 'None',//cross-site cookie
+        maxAge: 7 * 24 * 60 * 60 * 1000,//cookie expiry: set to macth rt
+        }
     )
     console.log('register-',req.cookies, refreshToken)
     res.status(200).json({accessToken, roles: user.roles, name: user.name})
@@ -51,12 +51,12 @@ const loginUser = async (req, res)=>{
     const accessToken = user.createAccessJWT()
     const refreshToken = user.createRefreshJWT()
     res.cookie('jwt', refreshToken, 
-        // {
-        // //httpOnly: true, //accessible only by web server
-        // //secure: true,//https
-        // sameSite: 'None',//cross-site cookie
-        // maxAge: 7 * 24 * 60 * 60 * 1000,//cookie epiry: set to macth rt
-        // }
+        {
+        httpOnly: true, //accessible only by web server
+        secure: true,//https
+        sameSite: 'None',//cross-site cookie
+        maxAge: 7 * 24 * 60 * 60 * 1000,//cookie epiry: set to macth rt
+        }
     )
     console.log('login-',req.cookies, refreshToken)
     res.status(200).json({accessToken, roles:user.roles, name: user.name})
