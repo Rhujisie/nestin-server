@@ -10,46 +10,47 @@ const getPlace = async(req, res)=>{
 
 const getAllPlace = async(req, res)=>{
     const {userId} = req.user
-    const place = await Place.find({userID: { $not: { $eq: userId} }}).lean()
-    res.json(place)
-}
+    const {id} = req.params
+    const {search} = req.query
+    let type = []
 
-const getRent = async(req, res)=>{
-    const {userId} = req.user
-    const place = await Place.find({type: {$in: ['House Rental', 'Flat Rental']},
-    userID: { $not: { $eq: userId} }})
-    .sort({'points': -1}).lean().limit(12)
-    res.json(place)
-}
-const getHomeStay = async(req, res)=>{
-    const {userId} = req.user
-    const place = await Place.find({type: {$in: ['House Homestay', 
-    'Flat Homestay','Tent Homestay', 'Farm Homestay', 'Tree house Homestay',
-     'Cabin Homestay']}, userID: { $not: { $eq: userId} }})
-    .sort({'points': -1}).lean().limit(12)
-    res.json(place)
-}
-const getHostel = async(req, res)=>{
-    const {userId} = req.user
-    const place = await Place.find({type: 'Hostel',
-    userID: { $not: { $eq: userId} }})
-    .sort({'points': -1}).lean().limit(12)
-    res.json(place)
-}
-const getHotel = async(req, res)=>{
-    const {userId} = req.user
-    const place = await Place.find({type: 'Hotel',
-    userID: { $not: { $eq: userId} }})
-    .sort({'points': -1}).lean().limit(12)
-    res.json(place)
-}
-const getPg = async(req, res)=>{
-    const {userId} = req.user
-    const place = await Place.find({type:'Paying guest',
-    userID: { $not: { $eq: userId} }})
-    .sort({'points': -1}).lean().limit(12)
-    res.json(place)
-}
+    if(id === 'rent'){
+        type = ['House Rental', 'Flat Rental']
+    }else if(id === 'homestay'){
+        type = ['House Homestay', 'Flat Homestay','Tent Homestay', 'Farm Homestay', 'Tree house Homestay', 'Cabin Homestay']
+    }else if(id === 'hostel'){
+        type = ['Hostel']
+    }else if(id === 'hotel'){
+        type = ['Hotel']
+    }else if(id === 'pg'){
+        type = ['Paying guest']
+    }
 
-module.exports = {getPlace, getAllPlace, getRent, getHomeStay,
-     getHotel, getHostel, getPg}
+    if(type.length){
+        if(search){
+            const place = await Place.find({userID: { $not: { $eq: userId}},
+            type: {$in: type}, city: search}).sort({'points': -1}).lean().limit(12)
+            console.log(place.length)
+            res.json(place)
+            return
+        }else{
+            const place = await Place.find({userID: { $not: { $eq: userId}},
+            type: {$in: type}}).sort({'points': -1}).lean().limit(12)
+            console.log(place.length)
+            res.json(place)
+            return
+        }
+    }else{
+        if(search){
+            const place = await Place.find({userID: { $not: { $eq: userId}}, city: search}).sort({'points': -1}).lean().limit(12)
+            console.log(place.length)
+            res.json(place)
+            return
+        }else{
+            const place = await Place.find({userID: { $not: { $eq: userId}}}).sort({'points': -1}).lean().limit(12)
+            console.log(place.length)
+            res.json(place)
+            return
+        }
+    }
+}
