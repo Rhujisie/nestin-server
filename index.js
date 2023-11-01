@@ -43,10 +43,20 @@ const photoMiddleware = multer({dest: 'uploads'})
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
-///app.use(credentials)
+//app.use(credentials)
 app.use(cors(corsOptions))
 
-const PORT = process.env.PORT || 5000
+// app.use(rateLimit({
+//     windowMs: 60 * 1000, // 1 min
+//     max: 5,
+//     message: {
+//         message: 'Too many attempts from this IP, please try again after 60 seconds'
+//     },
+//     standardHeaders: true,
+//     legacyHeaders: false,
+// }))
+
+const PORT = process.env.PORT || 3000
 
 // routes
 
@@ -64,9 +74,6 @@ app.post('/api/v1/uploads', photoMiddleware.array('photos', 100), (req, res)=>{
     res.json(uploadedFiles)
 })
 app.use('/uploads', express.static('./uploads'))
-app.get('/', (req, res)=>{
-    res.send('Hello there, welcome to nestin API')
-})
 app.use('/api/v1', userRouter)
 app.use('/api/v1/refresh', refreshRouter)
 app.use('/api/v1/logout', logoutRouter)

@@ -94,6 +94,7 @@ const generateOTP = async (req, res)=>{
     await transporter.sendMail(mailOptions);
     res.sendStatus(200)
 }
+
 const verifyOTP = async(req, res)=>{
  const {otp, email} = req.body
  const checkOTP = await OTP.findOne({email: email}).select('otp -_id').lean()

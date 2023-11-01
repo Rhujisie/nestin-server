@@ -1,5 +1,5 @@
 const allowedOrigins = [
-    'https://nestin.onrender.com'
+    'http://localhost:3001'
 ]
 
 module.exports = allowedOrigins

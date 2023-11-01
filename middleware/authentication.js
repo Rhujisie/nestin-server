@@ -5,6 +5,7 @@ const {UnauthenticatedError} = require('../errors/index')
 //check payload
 const auth = async (req, res, next)=>{
     const authHeader = req.headers.authorization
+    console.log('authenticate middleware', authHeader)
     if(!authHeader || !authHeader.startsWith('Bearer ')){
         throw new UnauthenticatedError('Authenticaion invalid')
     }

@@ -55,4 +55,5 @@ const getAllPlace = async(req, res)=>{
     }
 }
 
-module.exports = {getAllPlace, getPlace}
+
+module.exports = {getPlace, getAllPlace}

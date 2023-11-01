@@ -12,6 +12,7 @@ const getPlace = async(req, res)=>{
 const getAll = async(req, res)=>{
     const {id} = req.params
     const {search} = req.query
+    console.log(id, search)
     let type = []
 
     if(id === 'rent'){
@@ -29,25 +30,25 @@ const getAll = async(req, res)=>{
         if(search){
             const place = await Place.find({type: {$in: type}, city: search})
             .sort({'points': -1}).lean().limit(12)
-            console.log(place.length)
+            console.log('type search',place.length)
             res.json(place)
             return
         }else{
             const place = await Place.find({type: {$in: type}})
             .sort({'points': -1}).lean().limit(12)
-            console.log(place.length)
+            console.log('type no search', place.length)
             res.json(place)
             return
         }
     }else{
         if(search){
             const place = await Place.find({city: search}).sort({'points': -1}).lean().limit(12)
-            console.log(place.length)
+            console.log('all search',place.length, place)
             res.json(place)
             return
         }else{
             const place = await Place.find().sort({'points': -1}).lean().limit(12)
-            console.log(place.length)
+            console.log('all no search', place.length)
             res.json(place)
             return
         }
