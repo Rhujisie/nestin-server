@@ -5,8 +5,7 @@ require('dotenv').config()
 
 const handleRefreshToken = async (req, res)=>{
     const {jwt:refreshToken} = req.cookies
-    console.log('refresh', jwt)
-    if(!jwt) throw new UnauthenticatedError(`Authorization invalid ${jwt}`)
+    if(!jwt) throw new UnauthenticatedError(`Authorization invalid`)
     jwt.verify(
         refreshToken, 
         process.env.REFRESH_TOKEN_SECRET,
