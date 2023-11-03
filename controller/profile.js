@@ -1,5 +1,4 @@
 const User = require('../model/User')
-
 const getUser  = async(req, res)=>{
     const {userId} = req.user
     const user = await User.findById(userId).select('-password').lean()

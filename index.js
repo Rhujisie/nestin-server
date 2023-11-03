@@ -9,8 +9,6 @@ const fs = require('fs')
 //config
 const corsOptions = require('./config/corsOptions')
 //const credentials = require('./middleware/credential')
-
-
 //import routes
 const userRouter = require('./routes/Auth')
 const profileRouter = require('./routes/profile')
@@ -22,48 +20,26 @@ const reviewRouter = require('./routes/Review')
 const mainPlaceRouter = require('./routes/MainPlace')
 const userMainPlaceRouter = require('./routes/UserMain')
 const pointsRouter = require('./routes/Points')
-
-
 //import error handler middleware
 const errorHandler = require('./middleware/errorHandler')
 const notFoundHandler = require('./middleware/notFound')
 const authenticationMiddleware = require('./middleware/authentication')
-
-
 //import connectDB
 const connectDB = require('./connect')
-
 //import express
 const express = require('express')
 const app = express()
-
 const photoMiddleware = multer({dest: 'uploads'})
-
 //dependencies middleware
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 //app.use(credentials)
 app.use(cors(corsOptions))
-
-// app.use(rateLimit({
-//     windowMs: 60 * 1000, // 1 min
-//     max: 5,
-//     message: {
-//         message: 'Too many attempts from this IP, please try again after 60 seconds'
-//     },
-//     standardHeaders: true,
-//     legacyHeaders: false,
-// }))
-
 const PORT = process.env.PORT || 3000
-
-// routes
-
 //upload Photo temporary
 app.post('/api/v1/uploads', photoMiddleware.array('photos', 100), (req, res)=>{
     const uploadedFiles = []
-    console.log('files',req.files)
     for(let i = 0; i < req.files.length; i++){
         const {path, originalname} = req.files[i]
         const part = originalname.split('.')
@@ -84,8 +60,6 @@ app.use('/api/v1/user/main', authenticationMiddleware, userMainPlaceRouter)
 app.use('/api/v1', authenticationMiddleware, profileRouter)
 app.use('/api/v1/place', authenticationMiddleware, placeRouter)
 app.use('/api/v1/wishlist', authenticationMiddleware, wishlistRouter)
-
-
 //error handler middleware
 app.use(notFoundHandler)
 app.use(errorHandler)
@@ -100,5 +74,4 @@ const start = async ()=>{
         console.log(err)
     }
 }
-
 start()

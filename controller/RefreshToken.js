@@ -1,8 +1,6 @@
-const User = require('../model/User')
 const jwt = require('jsonwebtoken')
 const {UnauthenticatedError} = require('../errors')
 require('dotenv').config()
-
 const handleRefreshToken = async (req, res)=>{
     const {jwt:refreshToken} = req.cookies
     if(!jwt) throw new UnauthenticatedError(`Authorization invalid`)
