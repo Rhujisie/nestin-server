@@ -11,7 +11,6 @@ const handleRefreshToken = async (req, res)=>{
         process.env.REFRESH_TOKEN_SECRET,
         async (err, decoded)=>{
             if(err) {
-                console.log('refreshToken',err)
                 return res.status(403).json(err)
             }
             const accessToken = jwt.sign(
@@ -20,8 +19,7 @@ const handleRefreshToken = async (req, res)=>{
                 }, 
                 process.env.ACCESS_TOKEN_SECRET, {expiresIn:'5m'}
             )
-            const user = await User.findById(decoded.userId).select('-password')
-            return res.json({accessToken, roles: user.roles, name: user.name})
+            return res.json({accessToken, roles: ['user'], name: decoded.name})
         }
     )
 }
